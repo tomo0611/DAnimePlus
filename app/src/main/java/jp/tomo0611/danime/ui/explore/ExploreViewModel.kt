@@ -1,13 +1,13 @@
-package jp.tomo0611.danime.ui.dashboard
+package jp.tomo0611.danime.ui.explore
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class ExploreViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+        value = "This is Explore Fragment"
     }
     val text: LiveData<String> = _text
 }

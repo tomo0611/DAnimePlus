@@ -12,14 +12,20 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="jp.tomo0611.danime.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_explore"
+        android:name="jp.tomo0611.danime.ui.explore.ExploreFragment"
+        android:label="@string/title_explore"
+        tools:layout="@layout/fragment_explore" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="jp.tomo0611.danime.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_downloads"
+        android:name="jp.tomo0611.danime.ui.downloads.DownloadsFragment"
+        android:label="@string/title_downloads"
+        tools:layout="@layout/fragment_downloads" />
+
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="jp.tomo0611.danime.ui.account.AccountFragment"
+        android:label="@string/title_account"
+        tools:layout="@layout/fragment_downloads" />
 </navigation>
