@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.color.DynamicColors
 import jp.tomo0611.danime.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
