@@ -15,6 +15,7 @@ navigationUiKtx = "2.7.7"
 materialVersion = "1.13.0-alpha04"
 retrofit = "2.11.0"
 converterGson = "2.11.0"
+glide = "5.0.0-rc01"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,6 +32,7 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 google-material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "converterGson" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
