@@ -5,6 +5,10 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
+    <action
+        android:id="@+id/action_open_details"
+        app:destination="@id/navigation_details" />
+
     <fragment
         android:id="@+id/navigation_home"
         android:name="jp.tomo0611.danime.ui.home.HomeFragment"
