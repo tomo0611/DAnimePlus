@@ -63,7 +63,7 @@ class DetailsFragment : Fragment() {
                     RequestOptions().transform(RoundedCorners(20)).diskCacheStrategy(
                     DiskCacheStrategy.ALL))
                 .into(binding.detailsImageA)
-            binding.detailsDescription.text = Html.fromHtml(it.result.titleContents.title.titleDetail, Html.FROM_HTML_MODE_COMPACT)
+            binding.detailsDescription.text = Html.fromHtml(it.result.titleContents.title.titleDetail.replace("color=\"#ffffff\"", ""), Html.FROM_HTML_MODE_COMPACT)
         }
 
         detailsViewModel.episode_result.observe(viewLifecycleOwner) {
