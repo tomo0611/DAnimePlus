@@ -1,5 +1,6 @@
 package jp.tomo0611.danime.ui.details
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -18,7 +19,9 @@ import jp.tomo0611.danime.R
 import jp.tomo0611.danime.adapter.EpisodesAdapter
 import jp.tomo0611.danime.adapter.RecentlyAiredEpisodesAdapter
 import jp.tomo0611.danime.databinding.FragmentDetailsBinding
+import jp.tomo0611.danime.model.AnimeEpisode
 import jp.tomo0611.danime.model.Work
+import jp.tomo0611.danime.ui.player.PlayerActivity
 
 
 class DetailsFragment : Fragment() {
@@ -67,13 +70,12 @@ class DetailsFragment : Fragment() {
             Log.d("HomeFragment", "result: $it")
             val adapter = this.context?.let { it1 -> EpisodesAdapter(it1, it.result.titleContents.title.episodeContents.episodeList) }
             binding.episodesList.adapter = adapter
-            /*binding.episodesList.setOnItemClickListener { parent, view, position, id ->
-                val item = parent.getItemAtPosition(position) as Work
-                container?.findNavController()?.navigate(R.id.action_open_details, Bundle().apply {
-                    putString("workId", item.workId)
+            binding.episodesList.setOnItemClickListener { parent, view, position, id ->
+                val item = parent.getItemAtPosition(position) as AnimeEpisode
+                startActivity(Intent(context, PlayerActivity::class.java).apply {
+                    putExtra("episodeId", item.videoEpisodeId)
                 })
-                Log.d("HomeFragment", "item: $item")
-            }*/
+            }
         }
 
         return root

@@ -7,4 +7,14 @@
     <string name="title_details">Details</string>
     <string name="episode_image">Episode Image</string>
     <string name="title_activity_player">PlayerActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="danime_header">DAnime Authentication</string>
+
+    <!-- DAnime Authentication Preferences -->
+    <string name="dma_user_title">Dma User</string>
+    <string name="certificate_session_id_title">Certification Session ID</string>
+
+    <string name="action_settings_title">Settings</string>
 </resources>

@@ -1,5 +1,9 @@
 <resources>
 
+    <style name="AppTheme.NoActionBar" parent="Theme.Material3.DynamicColors.Light.NoActionBar">
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.Material3.DynamicColors.Light">
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>

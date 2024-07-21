@@ -2,6 +2,7 @@ package jp.tomo0611.danime.data
 
 import jp.tomo0611.danime.model.GetEpisodesRequest
 import jp.tomo0611.danime.model.GetEpisodesResponse
+import jp.tomo0611.danime.model.GetPlayParam
 import jp.tomo0611.danime.model.GetRecentlyAiredEpisodesResponse
 import jp.tomo0611.danime.model.GetTitleDetailRequest
 import jp.tomo0611.danime.model.GetTitleDetailResponse
@@ -13,6 +14,7 @@ interface DAnimeRepository {
     suspend fun getRecentlyAiredEpisodes(): GetRecentlyAiredEpisodesResponse
     suspend fun getTitleDetail(workId: String): GetTitleDetailResponse
     suspend fun getEpisodes(workId: String): GetEpisodesResponse
+    suspend fun getPlayParam(id: String, cookie: String): GetPlayParam
 }
 
 class NetworkDAnimeRepository(
@@ -41,4 +43,8 @@ class NetworkDAnimeRepository(
                 )
             )
         )[0]
+
+    override suspend fun getPlayParam(id:String, cookie:String): GetPlayParam = dAnimeApiService.getPlayParam(
+        partId=id, cookie = cookie
+    )
 }

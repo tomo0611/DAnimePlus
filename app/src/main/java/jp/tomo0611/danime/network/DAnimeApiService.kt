@@ -2,13 +2,16 @@ package jp.tomo0611.danime.network
 
 import jp.tomo0611.danime.model.GetEpisodesRequest
 import jp.tomo0611.danime.model.GetEpisodesResponse
+import jp.tomo0611.danime.model.GetPlayParam
 import jp.tomo0611.danime.model.GetRecentlyAiredEpisodesResponse
 import jp.tomo0611.danime.model.GetTitleDetailRequest
 import jp.tomo0611.danime.model.GetTitleDetailResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface DAnimeApiService {
 
@@ -29,5 +32,15 @@ interface DAnimeApiService {
     @GET("WS000118?needScene=1&tvProgramFlag=1&vodTypeList=svod_tvod")
     suspend fun getRecentlyAiredEpisodes(
     ): GetRecentlyAiredEpisodesResponse
+
+
+    @Headers("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0")
+    @GET("WS010105")
+    suspend fun getPlayParam(
+        @Query("viewType") viewType: Int = 5,
+        @Query("partId") partId: String = "25335022",
+        @Query("defaultPlay") defaultPlay: Int = 5,
+        @Header("Cookie") cookie: String = "",
+    ): GetPlayParam
 
 }
