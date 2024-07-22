@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.player.PlayerActivity"
     app:resize_mode="fit"
-    android:background="@android:color/black">
+    android:background="@android:color/black"
+    android:keepScreenOn="true">
 
     <androidx.media3.ui.PlayerView
         android:id="@+id/player_view"
