@@ -63,7 +63,8 @@ class DetailsFragment : Fragment() {
                     RequestOptions().transform(RoundedCorners(20)).diskCacheStrategy(
                     DiskCacheStrategy.ALL))
                 .into(binding.detailsImageA)
-            binding.detailsDescription.text = Html.fromHtml(it.result.titleContents.title.titleDetail.replace("color=\"#ffffff\"", ""), Html.FROM_HTML_MODE_COMPACT)
+            val regex = Regex("<\\s*font\\s*[^>]*>(.*?)<\\s*/\\s*font\\s*>", RegexOption.DOT_MATCHES_ALL)
+            binding.detailsDescription.text = Html.fromHtml(regex.replace(it.result.titleContents.title.titleDetail) { result -> result.groupValues[1] }, Html.FROM_HTML_MODE_COMPACT)
         }
 
         detailsViewModel.episode_result.observe(viewLifecycleOwner) {
