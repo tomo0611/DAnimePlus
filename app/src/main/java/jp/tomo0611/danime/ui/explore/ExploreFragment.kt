@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import jp.tomo0611.danime.adapter.GenreAdapter
 import jp.tomo0611.danime.databinding.FragmentExploreBinding
+import jp.tomo0611.danime.model.Genre
 
 class ExploreFragment : Fragment() {
 
@@ -17,21 +19,39 @@ class ExploreFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    // Genre List
+    private val genreList = listOf<Genre>(
+        Genre("11", "SF/ファンタジー"),
+        Genre("12", "ロボット/メカ"),
+        Genre("13", "アクション/バトル"),
+        Genre("14", "コメディ/ギャグ"),
+        Genre("15", "恋愛/ラブコメ"),
+        Genre("23", "日常/ほのぼの"),
+        Genre("16", "スポーツ/競技"),
+        Genre("17", "ホラー/サスペンス/推理"),
+        Genre("18", "歴史/戦記"),
+        Genre("19", "戦争/ミリタリー"),
+        Genre("20", "ドラマ/青春"),
+        Genre("21", "キッズ/ファミリー"),
+        Genre("22", "ショート"),
+        Genre("25", "2.5次元舞台"),
+        Genre("24", "ライブ/ラジオ/etc."),
+    )
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val exploreViewModel =
-            ViewModelProvider(this).get(ExploreViewModel::class.java)
+        //val exploreViewModel =
+        //    ViewModelProvider(this).get(ExploreViewModel::class.java)
 
         _binding = FragmentExploreBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textExplore
-        exploreViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        val adapter = GenreAdapter(requireActivity(), genreList)
+        binding.exploreGenreGridview.adapter = adapter
+
         return root
     }
 
