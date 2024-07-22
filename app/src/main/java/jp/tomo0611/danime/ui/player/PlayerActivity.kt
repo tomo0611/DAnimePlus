@@ -42,6 +42,9 @@ import java.io.File
 
 
 class PlayerActivity : AppCompatActivity() {
+
+    lateinit var player: ExoPlayer
+
     @OptIn(UnstableApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +85,7 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         // Initialize ExoPlayer
-        val player = ExoPlayer.Builder(this, renderersFactory).build()
+        player = ExoPlayer.Builder(this, renderersFactory).build()
 
         // Bind the player to the view.
         findViewById<PlayerView>(R.id.player_view).player = player
@@ -236,6 +239,13 @@ class PlayerActivity : AppCompatActivity() {
             .replace("/", "／")
             .replace("\\", "/")
             .replace("|", "｜")
+    }
+
+    override fun onDestroy() {
+        if(::player.isInitialized) {
+            player.release()
+        }
+        super.onDestroy()
     }
 
 }
