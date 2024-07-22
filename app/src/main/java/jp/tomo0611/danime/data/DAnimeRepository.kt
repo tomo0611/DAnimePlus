@@ -4,6 +4,9 @@ import jp.tomo0611.danime.model.GetEpisodesRequest
 import jp.tomo0611.danime.model.GetEpisodesResponse
 import jp.tomo0611.danime.model.GetPlayParam
 import jp.tomo0611.danime.model.GetRecentlyAiredEpisodesResponse
+import jp.tomo0611.danime.model.GetRelatedContentsRequest
+import jp.tomo0611.danime.model.GetRelatedContentsRequestParams
+import jp.tomo0611.danime.model.GetRelatedContentsResponse
 import jp.tomo0611.danime.model.GetTitleDetailRequest
 import jp.tomo0611.danime.model.GetTitleDetailResponse
 import jp.tomo0611.danime.model.GetTitleParams
@@ -15,6 +18,7 @@ interface DAnimeRepository {
     suspend fun getTitleDetail(workId: String): GetTitleDetailResponse
     suspend fun getEpisodes(workId: String): GetEpisodesResponse
     suspend fun getPlayParam(id: String, cookie: String): GetPlayParam
+    suspend fun getRelatedContents(workId: String): GetRelatedContentsResponse
 }
 
 class NetworkDAnimeRepository(
@@ -47,4 +51,14 @@ class NetworkDAnimeRepository(
     override suspend fun getPlayParam(id:String, cookie:String): GetPlayParam = dAnimeApiService.getPlayParam(
         partId=id, cookie = cookie
     )
+
+    override suspend fun getRelatedContents(workId: String): GetRelatedContentsResponse =
+        dAnimeApiService.getRelatedContents(
+            listOf(
+                GetRelatedContentsRequest(
+                    jsonrpc = "2.0", id = "0000", method = "relatedContents",
+                    params = GetRelatedContentsRequestParams(videoTitleId = workId)
+                )
+            )
+        )[0]
 }
