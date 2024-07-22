@@ -11,13 +11,16 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.provider.MediaStore
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.PixelCopy
 import android.view.SurfaceView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.annotation.OptIn
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -37,6 +40,24 @@ import androidx.media3.exoplayer.mediacodec.MediaCodecUtil
 import androidx.media3.ui.PlayerView
 import com.google.common.collect.ImmutableMap
 import jp.tomo0611.danime.R
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_22
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_23
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_24
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_25
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_26
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_27
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_28
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_29
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_30
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_31
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_32
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_33
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_36
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_37
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_38
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_39
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_81
+import jp.tomo0611.danime.model.ERROR_MSG_WS010105_86
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -63,7 +84,7 @@ class PlayerActivity : AppCompatActivity() {
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 
         val episodeId = intent.getStringExtra("episodeId") ?: ""
-        if(episodeId.isEmpty()) {
+        if (episodeId.isEmpty()) {
             finish()
             return
         }
@@ -109,16 +130,81 @@ class PlayerActivity : AppCompatActivity() {
                 viewModel.result.observe(this@PlayerActivity) {
                     Log.d("PlayerActivity", "result: $it")
 
+                    if (it.resultCd != "00") {
+                        var errorMessage = "不明なエラー"
+
+                        if (it.resultCd == "22") {
+                            errorMessage = ERROR_MSG_WS010105_22
+                        } else if (it.resultCd == "23") {
+                            errorMessage = ERROR_MSG_WS010105_23
+                        } else if (it.resultCd == "24") {
+                            errorMessage = ERROR_MSG_WS010105_24
+                        } else if (it.resultCd == "25") {
+                            errorMessage = ERROR_MSG_WS010105_25
+                        } else if (it.resultCd == "26") {
+                            errorMessage = ERROR_MSG_WS010105_26
+                        } else if (it.resultCd == "27") {
+                            errorMessage = ERROR_MSG_WS010105_27
+                        } else if (it.resultCd == "28") {
+                            errorMessage = ERROR_MSG_WS010105_28
+                        } else if (it.resultCd == "29") {
+                            errorMessage = ERROR_MSG_WS010105_29
+                        } else if (it.resultCd == "30") {
+                            errorMessage = ERROR_MSG_WS010105_30
+                        } else if (it.resultCd == "31") {
+                            errorMessage = ERROR_MSG_WS010105_31
+                        } else if (it.resultCd == "32") {
+                            errorMessage = ERROR_MSG_WS010105_32
+                        } else if (it.resultCd == "33") {
+                            errorMessage = ERROR_MSG_WS010105_33
+                        } else if (it.resultCd == "36") {
+                            errorMessage = ERROR_MSG_WS010105_36
+                        } else if (it.resultCd == "37") {
+                            errorMessage = ERROR_MSG_WS010105_37
+                        } else if (it.resultCd == "38") {
+                            errorMessage = ERROR_MSG_WS010105_38
+                        } else if (it.resultCd == "39") {
+                            errorMessage = ERROR_MSG_WS010105_39
+                        } else if (it.resultCd == "81") {
+                            errorMessage = ERROR_MSG_WS010105_81
+                        } else if (it.resultCd == "86") {
+                            errorMessage = ERROR_MSG_WS010105_86
+                        }
+
+                        AlertDialog.Builder(ContextThemeWrapper(this@PlayerActivity, R.style.AppTheme))
+                            .setTitle("エラー (code:"+it.resultCd+")")
+                            .setMessage(errorMessage)
+                            .setPositiveButton("閉じる") { dialog, which ->
+                                dialog.dismiss()
+                                finish()
+                            }
+                            .setCancelable(false)
+                            .setIcon(R.drawable.error_24px)
+                            .show()
+
+                        return@observe
+                    }
+
                     val token = viewModel.result_token.value
 
                     val mediaItem: MediaItem = MediaItem.Builder()
-                        .setUri(viewModel.result.value?.data?.castContentUri?.replace("http://", "https://"))
+                        .setUri(
+                            viewModel.result.value?.data?.castContentUri?.replace(
+                                "http://",
+                                "https://"
+                            )
+                        )
                         .setMimeType(MimeTypes.APPLICATION_MPD)
                         .setDrmConfiguration(
                             MediaItem.DrmConfiguration.Builder(C.WIDEVINE_UUID)
                                 .setLicenseUri("https://widevine.drmkeyserver.com/widevine")
                                 .setMultiSession(true)
-                                .setLicenseRequestHeaders(ImmutableMap.of("AcquireLicenseAssertion", token!!))
+                                .setLicenseRequestHeaders(
+                                    ImmutableMap.of(
+                                        "AcquireLicenseAssertion",
+                                        token!!
+                                    )
+                                )
                                 .build()
                         )
                         .build()
@@ -160,7 +246,11 @@ class PlayerActivity : AppCompatActivity() {
             if (copyResult === PixelCopy.SUCCESS) {
                 Log.e("ExoPlayerTopFragment#Screenshot", textureViewBitmap.toString())
 
-                val result = Bitmap.createBitmap(textureViewBitmap.getWidth(), textureViewBitmap.getHeight(), textureViewBitmap.getConfig())
+                val result = Bitmap.createBitmap(
+                    textureViewBitmap.getWidth(),
+                    textureViewBitmap.getHeight(),
+                    textureViewBitmap.getConfig()
+                )
                 val canvas = Canvas(result)
                 canvas.drawBitmap(textureViewBitmap, 0f, 0f, null)
 
@@ -206,7 +296,7 @@ class PlayerActivity : AppCompatActivity() {
                     }.start()
                 }
             } else {
-                if(copyResult == PixelCopy.ERROR_SOURCE_INVALID) {
+                if (copyResult == PixelCopy.ERROR_SOURCE_INVALID) {
                     val toast = Toast.makeText(
                         context,
                         "It is not possible to copy from the source. " +
@@ -242,7 +332,7 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        if(::player.isInitialized) {
+        if (::player.isInitialized) {
             player.release()
         }
         super.onDestroy()
