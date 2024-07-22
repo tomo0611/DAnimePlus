@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import jp.tomo0611.danime.R
 import jp.tomo0611.danime.adapter.GenreAdapter
 import jp.tomo0611.danime.databinding.FragmentExploreBinding
 import jp.tomo0611.danime.model.Genre
+import jp.tomo0611.danime.model.Work
 
 class ExploreFragment : Fragment() {
 
@@ -51,6 +54,11 @@ class ExploreFragment : Fragment() {
 
         val adapter = GenreAdapter(requireActivity(), genreList)
         binding.exploreGenreGridview.adapter = adapter
+        binding.exploreGenreGridview.setOnItemClickListener { parent, view, position, id ->
+            container?.findNavController()?.navigate(R.id.action_search, Bundle().apply {
+                putString("genreId", genreList[position].genreId)
+            })
+        }
 
         return root
     }

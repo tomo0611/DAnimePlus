@@ -48,8 +48,8 @@ class DetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (requireActivity().actionBar != null) {
-            requireActivity().actionBar?.setDisplayHomeAsUpEnabled(true);
-            requireActivity().actionBar?.setHomeButtonEnabled(true);
+            requireActivity().actionBar?.setDisplayHomeAsUpEnabled(true)
+            requireActivity().actionBar?.setHomeButtonEnabled(true)
         }
     }
 

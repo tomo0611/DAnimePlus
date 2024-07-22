@@ -9,6 +9,10 @@
         android:id="@+id/action_open_details"
         app:destination="@id/navigation_details" />
 
+    <action
+        android:id="@+id/action_search"
+        app:destination="@id/navigation_search" />
+
     <fragment
         android:id="@+id/navigation_home"
         android:name="jp.tomo0611.danime.ui.home.HomeFragment"
@@ -38,5 +42,11 @@
         android:name="jp.tomo0611.danime.ui.details.DetailsFragment"
         android:label="@string/title_details"
         tools:layout="@layout/fragment_details" />
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="jp.tomo0611.danime.ui.search.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search" />
 
 </navigation>

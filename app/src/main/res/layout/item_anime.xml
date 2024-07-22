@@ -1,0 +1,42 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="32dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/item_anime_thumbnail"
+        android:layout_width="192dp"
+        android:layout_height="108dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/_7198001_1_1"
+        android:contentDescription="@string/episode_image" />
+
+    <TextView
+        android:id="@+id/item_anime_work_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/item_anime_thumbnail"
+        app:layout_constraintTop_toTopOf="@id/item_anime_thumbnail"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="時々ボソッとロシア語でデレる隣のアーリャさん" />
+
+    <TextView
+        android:id="@+id/item_anime_work_favorite_count"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/item_anime_thumbnail"
+        app:layout_constraintTop_toBottomOf="@id/item_anime_work_title"
+        tools:text="Likes: 146315" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
