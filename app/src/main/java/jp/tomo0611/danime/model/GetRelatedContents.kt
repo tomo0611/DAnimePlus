@@ -28,7 +28,7 @@ data class RelatedContentsCategory(
 )
 
 data class RelatedContent(
-    val videoTitleId: Int = 23750,
+    val videoTitleId: String = "23750",
     val contentType: String = "title",
     val videoTitleName: String = "かぐや様は告らせたい？～天才たちの恋愛頭脳戦～",
     val titleThumbnail720pUrl: String? = null,
