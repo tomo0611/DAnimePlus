@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import jp.tomo0611.danime.R
 import jp.tomo0611.danime.adapter.AnimeAdapter
 import jp.tomo0611.danime.databinding.FragmentSearchBinding
+import jp.tomo0611.danime.model.AnimeWork
 
 class SearchFragment : Fragment() {
 
@@ -44,6 +47,13 @@ class SearchFragment : Fragment() {
             val listview = binding.listSearchResult
             val adapter = AnimeAdapter(requireActivity(), it.data.workList)
             listview.adapter = adapter
+            listview.setOnItemClickListener { parent, view, position, id ->
+                val item = parent.getItemAtPosition(position) as AnimeWork
+                Log.d("SearchFragment#OnClick", "item: $item")
+                requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.action_open_details, Bundle().apply {
+                    putString("workId", item.workId)
+                })
+            }
         }
 
         return root
