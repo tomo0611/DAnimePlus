@@ -40,6 +40,9 @@ class EpisodesAdapter(context: Context, list: List<AnimeEpisode>) :
         view?.findViewById<TextView>(R.id.text_episode_name)?.apply {
             text = data?.episodeText
         }
+
+        view?.findViewById<TextView>(R.id.text_episode_tag)?.visibility = View.GONE
+
         return view!!
     }
 }
