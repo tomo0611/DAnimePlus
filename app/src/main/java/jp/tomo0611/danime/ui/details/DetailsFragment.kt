@@ -24,12 +24,12 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import jp.tomo0611.danime.R
 import jp.tomo0611.danime.adapter.EpisodesAdapter
-import jp.tomo0611.danime.adapter.RecentlyAiredEpisodesAdapter
+import jp.tomo0611.danime.adapter.RelatedAnimeAdapter
 import jp.tomo0611.danime.databinding.FragmentDetailsBinding
 import jp.tomo0611.danime.model.AnimeEpisode
 import jp.tomo0611.danime.model.AnimeTitle
 import jp.tomo0611.danime.model.EpisodeContents
-import jp.tomo0611.danime.model.Work
+import jp.tomo0611.danime.model.RelatedContent
 import jp.tomo0611.danime.ui.player.PlayerActivity
 
 
@@ -82,13 +82,20 @@ class DetailsFragment : Fragment() {
                 .into(binding.detailsImageA)
         }
 
-        detailsViewModel.episode_result.observe(viewLifecycleOwner) {
+        detailsViewModel.related_result.observe(viewLifecycleOwner) {
             Log.d("HomeFragment", "result: $it")
+
+            var relatedContents = listOf<RelatedContent>()
+
+            if (it.result.relatedContentsCategory.size > 0) {
+                relatedContents = it.result.relatedContentsCategory.get(0).relatedContents
+            }
 
             detailsTabAdapter = DetailsTabAdapter(
                 this,
                 detailsViewModel.result.value!!.result.titleContents.title,
-                it.result.titleContents.title.episodeContents
+                detailsViewModel.episode_result.value!!.result.titleContents.title.episodeContents,
+                relatedContents
             )
             viewPager = requireView().findViewById(R.id.details_pager)
             viewPager.adapter = detailsTabAdapter
@@ -115,7 +122,8 @@ class DetailsFragment : Fragment() {
 class DetailsTabAdapter(
     fragment: Fragment,
     val anime_detail: AnimeTitle,
-    val anime_episode: EpisodeContents
+    val anime_episode: EpisodeContents,
+    val related_contents: List<RelatedContent>
 ) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 2
@@ -134,6 +142,7 @@ class DetailsTabAdapter(
             fragment.arguments = Bundle().apply {
                 // The object is just an integer.
                 putString("DATA", Gson().toJson(anime_detail))
+                putString("RELATED", Gson().toJson(related_contents))
             }
             return fragment
         }
@@ -153,6 +162,7 @@ class DetailsDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.takeIf { it.containsKey("DATA") }?.apply {
             val data = Gson().fromJson(getString("DATA"), AnimeTitle::class.java)
+            val related = Gson().fromJson(getString("RELATED"), Array<RelatedContent>::class.java)
             val regex =
                 Regex("<\\s*font\\s*[^>]*>(.*?)<\\s*/\\s*font\\s*>", RegexOption.DOT_MATCHES_ALL)
             val textView: TextView = view.findViewById(R.id.details_description)
@@ -160,6 +170,17 @@ class DetailsDetailsFragment : Fragment() {
                 regex.replace(data.titleDetail) { result -> result.groupValues[1] },
                 Html.FROM_HTML_MODE_COMPACT
             )
+            val listView = view.findViewById<ListView>(R.id.details_listview_related_anime)
+            val adapter = RelatedAnimeAdapter(requireActivity(), related.toList())
+            listView.adapter = adapter
+            listView.setOnItemClickListener { parent, view, position, id ->
+                val item = parent.getItemAtPosition(position) as RelatedContent
+                Log.d("DetailsRelated#OnClick", "item: $item")
+
+                requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.action_open_details, Bundle().apply {
+                    putString("workId", item.videoTitleId)
+                })
+            }
         }
     }
 }
