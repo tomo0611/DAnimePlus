@@ -1,5 +1,6 @@
 package jp.tomo0611.danime.data
 
+import jp.tomo0611.danime.model.AnimeSearchResponse
 import jp.tomo0611.danime.model.GetEpisodesRequest
 import jp.tomo0611.danime.model.GetEpisodesResponse
 import jp.tomo0611.danime.model.GetPlayParam
@@ -19,6 +20,7 @@ interface DAnimeRepository {
     suspend fun getEpisodes(workId: String): GetEpisodesResponse
     suspend fun getPlayParam(id: String, cookie: String): GetPlayParam
     suspend fun getRelatedContents(workId: String): GetRelatedContentsResponse
+    suspend fun getGenreAnimeList(genreId: String): AnimeSearchResponse
 }
 
 class NetworkDAnimeRepository(
@@ -61,4 +63,7 @@ class NetworkDAnimeRepository(
                 )
             )
         )[0]
+
+    override suspend fun getGenreAnimeList(genreId: String): AnimeSearchResponse =
+        dAnimeApiService.getGenreAnimeList(genreCd = genreId)
 }

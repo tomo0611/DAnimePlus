@@ -1,5 +1,6 @@
 package jp.tomo0611.danime.network
 
+import jp.tomo0611.danime.model.AnimeSearchResponse
 import jp.tomo0611.danime.model.GetEpisodesRequest
 import jp.tomo0611.danime.model.GetEpisodesResponse
 import jp.tomo0611.danime.model.GetPlayParam
@@ -41,6 +42,14 @@ interface DAnimeApiService {
     suspend fun getRecentlyAiredEpisodes(
     ): GetRecentlyAiredEpisodesResponse
 
+    @Headers("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0")
+    @GET("WS000107")
+    suspend fun getGenreAnimeList(
+        @Query("length") length: Int = 300,
+        @Query("mainKeyVisualSize") mainKeyVisualSize: Int = 1,
+        @Query("genreCd") genreCd: String = "11",
+        @Query("vodTypeList") vodTypeList: String = "svod_tvod"
+    ): AnimeSearchResponse
 
     @Headers("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0")
     @GET("WS010105")
