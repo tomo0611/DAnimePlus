@@ -97,19 +97,13 @@ class DetailsFragment : Fragment() {
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 if (position == 0) {
                     tab.text = "Episodes"
-                } else if (position == 1) {
-                    tab.text = "Details"
                 } else {
-                    tab.text = "OBJECT ${(position + 1)}"
+                    tab.text = "Details"
                 }
             }.attach()
         }
 
         return root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {
