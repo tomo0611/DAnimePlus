@@ -97,7 +97,7 @@ class PlayerActivity : AppCompatActivity() {
                     requiresSecureDecoder,
                     requiresTunnelingDecoder
                 ).toMutableList().filter {
-                    !it.name.endsWith(".secure")
+                    !it.name.endsWith(".secure") && !it.name.startsWith("OMX.qcom.")
                 }.toMutableList()
             }
 
